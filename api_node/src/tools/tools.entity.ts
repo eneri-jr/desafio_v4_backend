@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
+import Tags from "../tag/tags.entity"
 
 //Criação da entidade Tools:
 @Entity()
@@ -14,6 +15,12 @@ class Tools{
 
     @Column()
     public description: string;
+
+    @ManyToMany(type => Tags, tools => Tools, {
+        cascade: ["insert", "update"]
+    })
+    @JoinTable()
+    public tags: Tags[];
 }
 
 export default Tools;

@@ -3,6 +3,7 @@ import { getRepository} from "typeorm";
 import ToolsNotFoundException from "../exceptions/toolsNotFoundException";
 import Controller from "../interfaces/controller.interface";
 import Tools from "./tools.entity";
+import Tags from "../tag/tags.entity";
 
 //Classe que irá fazer todo controle entre a entidade e o banco de dados:
 class ToolsController implements Controller {
@@ -12,6 +13,9 @@ class ToolsController implements Controller {
 
     //Inicializaçao do repositório de tools:
     private toolsRepository = getRepository(Tools);
+
+    //Inicialização do repositório de tag:
+    private tagRepository = getRepository(Tags);
 
     //Construtor da classe:
     constructor(){
@@ -32,11 +36,34 @@ class ToolsController implements Controller {
         response.send(tools);
     }
     
-    //função para criar uma tools:
+    //função para criar uma tools com tags:
     private createTools = async (request: express.Request, response: express.Response) => {
-        const tools = this.toolsRepository.create(request.body);
-        await this.toolsRepository.save(tools);
-        response.send(tools);
+        const listTags = [];
+        const listTagsUnique = [...new Set(request.body.tags)]
+
+        //Transformar lista de tags strings em lista de objetos tags
+        for(const tag of listTagsUnique){
+            const newTag = new Tags();
+            newTag.description = tag.toString();
+            const findTag = await this.tagRepository.findOne(newTag);
+            
+            if(findTag === undefined){
+                listTags.push(newTag)
+            } else{
+            listTags.push(findTag);
+            }
+        }
+
+        const newTool = new Tools();
+
+        newTool.description = request.body.description;
+        newTool.link = request.body.link;
+        newTool.title = request.body.title;
+        newTool.tags = listTags;
+
+        const tool = this.toolsRepository.create(newTool);
+        await this.toolsRepository.save(tool);
+        response.send(tool);
     }
 
     //função para deletar uma tools:
