@@ -1,5 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
-import Tags from "../tag/tags.entity"
+import Tags from "../tags/tags.entity";
 
 //Criação da entidade Tools:
 @Entity()
