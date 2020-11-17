@@ -5,8 +5,8 @@ const config: ConnectionOptions = {
     type: 'postgres',
     host: 'localhost',
     port: 5432,
-    username: 'postgres',
-    password: '1234',
+    username: 'admin',
+    password: 'admin',
     database: 'db_v4',
     entities: [
         "dist/**/*.entity{.ts,.js}",
