@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { Expression } from 'typescript';
+import * as cors from 'cors';
 
 class App{
     public app: express.Application;
@@ -9,6 +9,8 @@ class App{
     constructor(controllers, port) {
         this.app = express();
         this.port = port;
+
+        this.app.use(cors())
 
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
