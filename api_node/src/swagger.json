@@ -1,0 +1,123 @@
+{
+    "swagger": "2.0",
+    "info":{
+        "version": "1.0.0",
+        "title": "Api-Tools-V4",
+        "description": "Api usada para manipular tools"
+    },
+    "host":"localhost:3000",
+    "basePath": "",
+    "tags":[
+        {
+            "name": "Tools",
+            "description": "Sistema de Tools"
+        }
+    ],
+    "schemes": ["http"],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/tools": {
+            "get":{
+                "tags":[
+                    "Tools"
+                ],
+                "summary": "Lista todas ferramentas ou por uma tag",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema" :{
+                            "$ref": "#/definitions/Tools"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tools"
+                ],
+                "summary": "Cria uma ferramenta no sistema",
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "Criação dde uma ferramenta no sistema",
+                    "schema": {
+                        "$ref": "#/definitions/Tools"
+                    }
+                }],
+                "produces":[
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema":{
+                            "$ref": "#/definitions/Tools"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deleta uma ferramenta",
+                "tags":[
+                    "Tools"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    },
+                    "404":{
+                        "description": "Falha, não localizou a ferramenta"
+                    }
+                }
+            }
+        }
+    },
+    "definitions":{
+        "Tools":{
+            "type":"object",
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "link": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "tags":{
+                    "type":"object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Tags"
+                    }
+                }    
+            }
+        },
+        "Tags":{
+            "type":"object",
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "tools":{
+                    "type":"object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Tools"
+                    }
+                }
+            }
+        }
+    }
+
+}

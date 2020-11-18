@@ -1,6 +1,9 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
+import * as swaggerUi from "swagger-ui-express";
+import * as swaggerDocument from "./swagger.json";
+
 
 class App{
     public app: express.Application;
@@ -22,7 +25,8 @@ class App{
 
     private initializeControllers(controllers){
         controllers.forEach((controller) => {
-            this.app.use('/', controller.router)
+            this.app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+            this.app.use('/', controller.router);
         });
     }
 
