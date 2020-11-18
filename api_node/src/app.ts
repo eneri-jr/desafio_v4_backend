@@ -1,7 +1,7 @@
-import express from 'express';
+import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import cors from 'cors';
-import swaggerUi from "swagger-ui-express";
+import * as cors from 'cors';
+import * as swaggerUi from "swagger-ui-express";
 import * as swaggerDocument from "./swagger.json";
 
 
@@ -25,13 +25,13 @@ class App{
 
     private initializeControllers(controllers){
         controllers.forEach((controller) => {
+            this.app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
             this.app.use('/', controller.router);
         });
     }
 
     public listen(){
         this.app.listen(this.port, () => {
-            this.app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
             console.log(`App listening on the port ${this.port}`);
         });
     }
