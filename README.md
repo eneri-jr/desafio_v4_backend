@@ -11,3 +11,5 @@ Para executar o projeto:
     - npm install
     - npm run dev
 * A aplicação por padrão estará rodando na porta 3000.
+
+* A documentação da api se encontra em: http://localhost:3000/swagger/
